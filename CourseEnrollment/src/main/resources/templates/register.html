@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments :: head" >
+    <link rel="stylesheet" type="text/css" th:href="@{css/register.css}">
+</head>
+
+<body>
+<div class="container">
+<div class="container-fluid">
+    <div th:replace="fragments :: header" ></div>
+    <div th:replace="fragments :: js" ></div>
+    </br>
+    <h1>Register</h1>
+    </br>
+    <div th:if="${param.error}" th:text="#{msg.login.loginerror}" class="login-error" >Unable to register. Check your username and password.</div>
+    <form enctype="multipart/form-data" method="POST" th:action="@{/register}">
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label for="username" th:text="#{msg.login.username}">Username: </label>
+                <input type="text" name="username" class="form-control" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label for="password" th:text="#{msg.login.password}">Password: </label>
+                <input type="password" name="password" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label for="isLecturer" >IsLecturer: </label>
+                <input type="checkbox" name="isLecturer" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label for="image" >IsLecturer: </label>
+                <input type="file" name="image" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <input type="submit" th:value="#{msg.login.loginbtn}" value="Register" class="form-control btn btn-info" />
+            </div>
+        </div>
+    </form>
+    <div class="container">
+        <p>Site for your course application</p>
+        <p>List of <abbr title="World Health Organization">all the courses</abbr> that are up now.</p>
+    </div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+<body>
+
+    <head th:fragment="head">
+        <title>Course Enrollment 2.ZERO</title>
+        <link rel="shortcut icon" type="image/x-icon" th:href="@{/images/logov2.png}"  />
+        <meta charset="UTF-8"></meta>
+        <link th:href="@{/css/style.css}" rel="stylesheet" />
+        <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    </head>
+
+
+
+    <div th:fragment="header" id="logo-title" >
+        <img th:src="@{/images/logov2.png}" />
+        <div>
+            <span th:text="#{msg.lang.current}"></span>:
+            <select id="locales">
+                <option value="hr" th:selected="${#locale.language == 'hr'}" th:text="#{msg.lang.hr}"></option>
+                <option value="en" th:selected="${#locale.language == 'en'}" th:text="#{msg.lang.en}"></option>
+            </select>
+        </div>
+        <h1>Course Enrollment 2.ZERO</h1>
+        <div sec:authorize="isAuthenticated()">
+            <form method="POST" th:action="@{/logout}">
+                <div class="text-right"><span sec:authentication="name">Korisnik</span>
+                    <img th:src="@{/file}">
+                <input type="submit" th:value="#{msg.fragment.logout}" value="Logout" class="btn btn-info" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div th:fragment="js" >
+        <script type="text/javascript" th:src="@{/js/jquery-3.4.1.slim.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    </div>
+
+</body>
+
+</html>

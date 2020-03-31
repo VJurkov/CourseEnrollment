@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments :: head" ></head>
+<body>
+<div class="container-fluid">
+    <div th:replace="fragments :: header" ></div>
+    <div th:replace="fragments :: js" ></div>
+
+    <H1 sec:authorize="hasAuthority('STUDENT')" th:text="#{msg.index.enrollcourse}" class="h1">Enrolled courses</H1>
+    <H1 sec:authorize="hasAuthority('LECTURER')" th:text="#{msg.index.allcourses}" class="h1">All courses</H1>
+
+
+    <ul class="list-group list-group-flush" sec:authorize="hasAuthority('STUDENT')" th:each="studentCourse : ${studentCourses}">
+        <li class="list-group-item">
+            <div th:text="${studentCourse.courseId}">
+                1
+            </div>
+            <div th:text="${studentCourse.name}">
+                Name...
+            </div>
+        </li>
+    </ul>
+
+    <ul class="list-group list-group-flush" sec:authorize="hasAuthority('LECTURER')" th:each="course : ${allCourses}">
+        <li class="list-group-item">
+            <div th:text="${course.courseId}">
+                1
+            </div>
+            <div th:text="${course.name}">
+                Name...
+            </div>
+            <div>
+                <form method="POST" th:action="@{/courses/cloneCourse}">
+                    <input type="hidden" name="courseId" th:value="${course.courseId}" />
+                    <input type="submit" value="Clone">
+                </form>
+            </div>
+        </li>
+    </ul>
+    </br>
+    <a th:text="#{msg.index.enrollincourse}" class="btn btn-info" sec:authorize="hasAuthority('STUDENT')" th:href="@{/enroll}">
+        Enroll In course
+    </a>
+    <a th:text="#{msg.index.createcourse}" class="btn btn-info" sec:authorize="hasAuthority('LECTURER')" th:href="@{/courses}">
+        Create Course
+    </a>
+</div>
+</body>
+</html>
