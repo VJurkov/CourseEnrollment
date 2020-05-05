@@ -45,7 +45,9 @@ public class CourseRestController {
     @GetMapping("/{id}") //get s parametrom id
     public ResponseEntity<Course> findOne(@PathVariable Long id){
         //ako je nastavnik onda daj bilo koji kors po id-u ako je student onda daj ono u sta je student enrollan
-        Optional<Course> course = SecurityUtils.isLecturer() ? courseService.findById(id) : courseService.findByIdAndEnroll(id, SecurityUtils.getUsername());
+       // Optional<Course> course = SecurityUtils.isLecturer() ? courseService.findById(id) : courseService.findByIdAndEnroll(id, SecurityUtils.getUsername());
+
+        Optional<Course> course =  courseService.findById(id);
         return course.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -55,14 +57,14 @@ public class CourseRestController {
     //ta metoda očekuje da upišemo json
     @PostMapping(consumes="application/json")
     // radim post mapping na api/course
-    @PreAuthorize("hasAuthority('LECTURER')")
+    //@PreAuthorize("hasAuthority('LECTURER')")
     public Course save(@Valid @RequestBody Course course) {
         return courseService.addCourse(course);
     }
 
     //update
     @PutMapping(value = "/{id}", consumes="application/json")
-    @PreAuthorize("hasAuthority('LECTURER')")
+    //@PreAuthorize("hasAuthority('LECTURER')")
     public ResponseEntity<Course> update(@PathVariable Long id, @Valid @RequestBody Course updatedCourse){
         //vreper oko neke klase tako da klasa može biti null
         Optional<Course> course = courseService.findById(id);
@@ -83,7 +85,7 @@ public class CourseRestController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('LECTURER')")
+    //@PreAuthorize("hasAuthority('LECTURER')")
     public void delete(@PathVariable Long id){
         boolean exists = courseService.exists(id);
         if(exists){
