@@ -12,24 +12,24 @@
     </br>
     <h1>Login</h1>
     </br>
-    <div th:if="${param.error}" th:text="#{msg.login.loginerror}" class="login-error" >Unable to login. Check your username and password.</div>
+    <div th:if="${param.error}" th:text="#{msg.login.loginerror}" class="login-error" id="loginError" >Unable to login. Check your username and password.</div>
     <div th:if="${param.logout}" class="logout-success" >You have successfully logged out.</div>
     <form method="POST" th:action="@{/login}">
         <div class="form-row">
             <div class="col-md-4 mb-3">
                 <label for="username" th:text="#{msg.login.username}">Username: </label>
-                <input type="text" name="username" class="form-control" />
+                <input id="username" type="text" name="username" class="form-control" />
             </div>
         </div>
         <div class="form-row">
             <div class="col-md-4 mb-3">
                 <label for="password" th:text="#{msg.login.password}">Password: </label>
-                <input type="password" name="password" class="form-control"/>
+                <input id="password" type="password" name="password" class="form-control"/>
             </div>
         </div>
         <div class="form-row">
             <div class="col-md-4 mb-3">
-                <input type="submit" th:value="#{msg.login.loginbtn}" value="Login" class="form-control btn btn-info" />
+                <input id="login" type="submit" th:value="#{msg.login.loginbtn}" value="Login" class="form-control btn btn-info" />
             </div>
             <a th:text="#{msg.login.register}" class="btn btn-info" th:href="@{/register}">
                 Create Course
