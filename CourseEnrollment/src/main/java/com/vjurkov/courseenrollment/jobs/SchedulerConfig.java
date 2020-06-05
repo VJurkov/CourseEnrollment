@@ -21,7 +21,7 @@ public class SchedulerConfig {
     //trigiram taj build
     public SimpleTrigger coursePrintTrigger() {
         SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
-                .withIntervalInSeconds(5).repeatForever();
+                .withIntervalInMinutes(30).repeatForever();
 
         return TriggerBuilder.newTrigger().forJob(coursePrintJobDetail())
                 .withIdentity("coursePrintTrigger").withSchedule(scheduleBuilder).build();
