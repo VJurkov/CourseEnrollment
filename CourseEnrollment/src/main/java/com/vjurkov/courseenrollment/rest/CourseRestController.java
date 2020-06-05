@@ -8,6 +8,7 @@ import com.vjurkov.courseenrollment.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,12 +29,18 @@ public class CourseRestController {
     @Autowired
     UserService userService;
 
+    JmsTemplate jmsTemplate;
+
+    @Autowired
+    public CourseRestController(JmsTemplate jmsTemplate) {
+        this.jmsTemplate = jmsTemplate;
+    }
 
     @GetMapping
     //mapira metodu na get rikvest /api/course
     public Iterable<Course> findAll(){
-
-        return SecurityUtils.isLecturer() ? courseService.getAllCourses() : courseService.getAllCourses(SecurityUtils.getUsername());
+        jmsTemplate.convertAndSend("Getting all courses");
+        return courseService.getAllCourses();
     }
     @GetMapping("/all")
     //mapira metodu na get rikvest /api/course
@@ -45,7 +52,9 @@ public class CourseRestController {
     @GetMapping("/{id}") //get s parametrom id
     public ResponseEntity<Course> findOne(@PathVariable Long id){
         //ako je nastavnik onda daj bilo koji kors po id-u ako je student onda daj ono u sta je student enrollan
-        Optional<Course> course = SecurityUtils.isLecturer() ? courseService.findById(id) : courseService.findByIdAndEnroll(id, SecurityUtils.getUsername());
+       // Optional<Course> course = SecurityUtils.isLecturer() ? courseService.findById(id) : courseService.findByIdAndEnroll(id, SecurityUtils.getUsername());
+
+        Optional<Course> course =  courseService.findById(id);
         return course.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -55,15 +64,17 @@ public class CourseRestController {
     //ta metoda očekuje da upišemo json
     @PostMapping(consumes="application/json")
     // radim post mapping na api/course
-    @PreAuthorize("hasAuthority('LECTURER')")
+    //@PreAuthorize("hasAuthority('LECTURER')")
     public Course save(@Valid @RequestBody Course course) {
+        jmsTemplate.convertAndSend("Adding new course" + course.getName());
         return courseService.addCourse(course);
     }
 
     //update
     @PutMapping(value = "/{id}", consumes="application/json")
-    @PreAuthorize("hasAuthority('LECTURER')")
+    //@PreAuthorize("hasAuthority('LECTURER')")
     public ResponseEntity<Course> update(@PathVariable Long id, @Valid @RequestBody Course updatedCourse){
+        jmsTemplate.convertAndSend("Updating new course" + updatedCourse.getName());
         //vreper oko neke klase tako da klasa može biti null
         Optional<Course> course = courseService.findById(id);
         Optional<User> lecturer = userService.findByUsername(updatedCourse.getLecturer().getUserName());
@@ -83,7 +94,7 @@ public class CourseRestController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('LECTURER')")
+    //@PreAuthorize("hasAuthority('LECTURER')")
     public void delete(@PathVariable Long id){
         boolean exists = courseService.exists(id);
         if(exists){

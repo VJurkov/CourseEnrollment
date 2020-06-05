@@ -12,12 +12,12 @@
     </br>
     <h1>Register</h1>
     </br>
-    <div th:if="${param.error}" th:text="#{msg.login.loginerror}" class="login-error" >Unable to register. Check your username and password.</div>
+    <div th:if="${param.error}" th:text="#{msg.login.loginerror}" class="login-error"  >Unable to register. Check your username and password.</div>
     <form enctype="multipart/form-data" method="POST" th:action="@{/register}">
         <div class="form-row">
             <div class="col-md-4 mb-3">
                 <label for="username" th:text="#{msg.login.username}">Username: </label>
-                <input type="text" name="username" class="form-control" />
+                <input id="username" type="text" name="username" class="form-control" />
             </div>
         </div>
         <div class="form-row">

@@ -139,7 +139,7 @@ public class Controller implements Initializable {
 
             restTemplate.postForEntity(courseUrl, course, Course.class);
 
-            //TODO clear i poruka
+
 
             this.onGetCoursesClick();
 
