@@ -50,7 +50,11 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Optional<Course> findById(Long id) {
-        return courseRepository.findById(id);
+        return courseRepository
+                .findAll()
+                .stream()
+                .filter((course -> course.getCourseId()==id))
+                .findFirst();
     }
 
     @Override

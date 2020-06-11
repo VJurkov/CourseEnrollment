@@ -30,7 +30,7 @@ spring:
         default_schema: 'public'
     database-platform: org.hibernate.dialect.PostgreSQL9Dialect
 server:
-  port: 8080
+  port: 8081
 
-#docker run -d --name=grafana -p 3001:3001 grafana/grafana
+#docker run -d --name=grafana -p 3000:3000 grafana/grafana
 # docker run -d --name=prometheus -p 9090:9090 -v /Users/snoleopard/Documents/javaprojects/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus --config.file=/etc/prometheus/prometheus.yml
